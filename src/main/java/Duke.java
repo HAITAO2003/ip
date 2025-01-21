@@ -18,8 +18,9 @@ public class Duke {
 
         while (!input_str.equals("bye")) {
             try {
-                switch(parts[0]) {
-                    case "deadline":
+                Command command = Command.fromString(parts[0]);
+                switch(command) {
+                    case DEADLINE:
                         if (parts.length <= 1 || !parts[1].contains("/by")) {
                             throw new DukeException("Please provide a task description and deadline using /by!");
                         }
@@ -31,14 +32,14 @@ public class Duke {
                         taskList.add_item(new Deadline(description, deadline));
                         break;
 
-                    case "todo":
+                    case TODO:
                         if (parts.length <= 1) {
                             throw new DukeException("The description of a todo cannot be empty!");
                         }
                         taskList.add_item(new ToDo(parts[1].strip()));
                         break;
 
-                    case "event":
+                    case EVENT:
                         if (parts.length <= 1 || !parts[1].contains("/from") || !parts[1].contains("/to")) {
                             throw new DukeException("Please provide event details with /from and /to!");
                         }
@@ -52,18 +53,18 @@ public class Duke {
                         taskList.add_item(new Event(description, startTime, endTime));
                         break;
 
-                    case "delete":
+                    case DELETE:
                         if (parts.length <= 1) {
                             throw new DukeException("Please specify what to delete!");
                         }
                         taskList.delete_item_by_index(Integer.parseInt(parts[1].strip()));
                         break;
 
-                    case "list":
+                    case LIST:
                         taskList.print();
                         break;
 
-                    case "mark":
+                    case MARK:
                         if (parts.length <= 1) {
                             throw new DukeException("Please specify which task to mark as done!");
                         }
@@ -74,14 +75,13 @@ public class Duke {
                             throw new DukeException("Please provide a valid task number!");
                         }
                         break;
-
-                    default:
+                    case UNKNOWN:
                         throw new DukeException("I don't understand that command. Please try again!");
                 }
             } catch (DukeException e) {
                 Utils.output(e.getMessage());
             } catch (ArrayIndexOutOfBoundsException e) {
-                Utils.output("Something went wrong! Please check your command format.");
+                Utils.output("(Index out of bound error) Something went wrong! Please check your command format.");
             } catch (Exception e) {
                 Utils.output("An unexpected error occurred: " + e.getMessage());
             }
