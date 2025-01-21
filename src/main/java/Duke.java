@@ -15,13 +15,15 @@ public class Duke {
         Utils.output("Hello! I'm Duke \nWhat can I do for you? ");
         String input_str = Utils.get_input(Optional.empty());
         String[] parts = input_str.split(" ", 2);
+
         while (!input_str.equals("bye")) {
+
             switch(parts[0]){
                 case "add":
                     if (parts.length <= 1){
                         Utils.output("invalid input!");
                     } else {
-                        todoList.add_item(parts[1]);
+                        todoList.add_item(new Task(parts[1]));
                     }
                     input_str = Utils.get_input(Optional.empty());
                     parts = input_str.split(" ", 2);
@@ -40,6 +42,12 @@ public class Duke {
                     input_str = Utils.get_input(Optional.empty());
                     parts = input_str.split(" ", 2);
                     break;
+                case "mark":
+                    if (parts.length <= 1){
+                        Utils.output("invalid input!");
+                    } else {
+                        todoList.mark_done_by_index(Integer.parseInt(parts[1]));
+                    }
                 default:
                     input_str = Utils.get_input(Optional.empty());
                     parts = input_str.split(" ",2);
