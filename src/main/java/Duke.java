@@ -3,7 +3,7 @@ import utils.Utils;
 import java.util.Optional;
 
 public class Duke {
-    static TodoList todoList = new TodoList();
+    static TaskList taskList = new TaskList();
     public static void main(String[] args) {
 
         String logo = " ____        _        \n"
@@ -17,13 +17,36 @@ public class Duke {
         String[] parts = input_str.split(" ", 2);
 
         while (!input_str.equals("bye")) {
-
             switch(parts[0]){
-                case "add":
+                case "deadline":
                     if (parts.length <= 1){
                         Utils.output("invalid input!");
                     } else {
-                        todoList.add_item(new Task(parts[1]));
+                        String description = parts[1].split("/by")[0].strip();
+                        String deadline = parts[1].split("/by")[1];
+                        taskList.add_item(new Deadline(description, deadline));
+                    }
+                    input_str = Utils.get_input(Optional.empty());
+                    parts = input_str.split(" ", 2);
+                    break;
+                case "todo":
+                    if (parts.length <= 1){
+                        Utils.output("invalid input!");
+                    } else {
+                        taskList.add_item(new ToDo(parts[1].strip()));
+                    }
+                    input_str = Utils.get_input(Optional.empty());
+                    parts = input_str.split(" ", 2);
+                    break;
+                case "event":
+                    if (parts.length <= 1){
+                        Utils.output("invalid input!");
+                    } else {
+                        String[] temp = parts[1].split("/from|/to");
+                        String description = temp[0].strip();
+                        String startTime = temp[1];
+                        String endTime = temp[2];
+                        taskList.add_item(new Event(description, startTime, endTime));
                     }
                     input_str = Utils.get_input(Optional.empty());
                     parts = input_str.split(" ", 2);
@@ -32,13 +55,13 @@ public class Duke {
                     if (parts.length <= 1){
                         Utils.output("invalid input!");
                     } else {
-                        todoList.delete_item(parts[1]);
+                        taskList.delete_item(parts[1].strip());
                     }
                     input_str = Utils.get_input(Optional.empty());
                     parts = input_str.split(" ", 2);
                     break;
                 case "list":
-                    todoList.print();
+                    taskList.print();
                     input_str = Utils.get_input(Optional.empty());
                     parts = input_str.split(" ", 2);
                     break;
@@ -46,7 +69,7 @@ public class Duke {
                     if (parts.length <= 1){
                         Utils.output("invalid input!");
                     } else {
-                        todoList.mark_done_by_index(Integer.parseInt(parts[1]));
+                        taskList.mark_done_by_index(Integer.parseInt(parts[1]));
                     }
                 default:
                     input_str = Utils.get_input(Optional.empty());
