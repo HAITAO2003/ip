@@ -11,13 +11,18 @@ public class Utils {
         String prompt = leading_text.orElse("");
         System.out.print(prompt);
 
-        String ret = input.next();
+        String ret = input.nextLine();
         System.out.println("_".repeat(60));
         return ret;
     }
     public static void output(String output_str)
     {
-        System.out.println(output_str);
-        System.out.println("_".repeat(60));
+        if (output_str.equals("")) {
+            System.out.println("_".repeat(60));
+        }else{
+            System.out.println(output_str);
+            System.out.println("_".repeat(60));
+
+        }
     }
 }
