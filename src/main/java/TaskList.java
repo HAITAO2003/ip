@@ -12,7 +12,7 @@ public class TaskList {
         System.out.println("Got it. I've added this task:");
         if (item instanceof Deadline) {
             Deadline deadline = (Deadline) item;
-            System.out.printf("     [%s] [%s] %s (by%s)\n",
+            System.out.printf("     [%s] [%s] %s (by: %s)\n",
                     deadline.getTypeIcon(),deadline.getStatusIcon(), deadline.getDescription(), deadline.getDeadline());
         }else if (item instanceof ToDo) {
             ToDo todo = (ToDo) item;
@@ -47,7 +47,7 @@ public class TaskList {
         for (Task item : this.list) {
             if (item instanceof Deadline) {
                 Deadline deadline = (Deadline) item;
-                System.out.printf("%d.[%s] [%s] %s (by:%s)\n",
+                System.out.printf("%d.[%s] [%s] %s (by: %s)\n",
                         idx, deadline.getTypeIcon(), deadline.getStatusIcon(),
                         deadline.getDescription(), deadline.getDeadline());
             } else if (item instanceof ToDo) {
@@ -57,7 +57,7 @@ public class TaskList {
                         todo.getDescription());
             } else if (item instanceof Event) {
                 Event event = (Event) item;
-                System.out.printf("%d.[%s] [%s] %s (from:%s to:%s)\n",
+                System.out.printf("%d.[%s] [%s] %s (from: %s to: %s)\n",
                         idx, event.getTypeIcon(), event.getStatusIcon(),
                         event.getDescription(), event.getStartTime(), event.getEndTime());
             }
