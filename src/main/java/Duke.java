@@ -56,7 +56,7 @@ public class Duke {
                         if (parts.length <= 1) {
                             throw new DukeException("Please specify what to delete!");
                         }
-                        taskList.delete_item(parts[1].strip());
+                        taskList.delete_item_by_index(Integer.parseInt(parts[1].strip()));
                         break;
 
                     case "list":
