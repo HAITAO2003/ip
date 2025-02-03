@@ -3,8 +3,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 public class Event extends Task{
-    private String startTime;
-    private String endTime;
+
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
 
@@ -16,8 +15,6 @@ public class Event extends Task{
             if (this.endDateTime.isBefore(this.startDateTime)) {
                 throw new DukeException("End time cannot be before start time!");
             }
-            this.startTime = startTimeStr.strip();
-            this.endTime = endTimeStr.strip();
         } catch (DateTimeParseException e) {
             throw new DukeException("Please enter dates in format: d/M/yyyy HHmm (e.g., 2/12/2019 1800)");
         }
