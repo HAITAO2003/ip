@@ -1,24 +1,25 @@
-import utils.Utils;
 
 import java.util.ArrayList;
+
+import utils.Utils;
 
 public class TaskList {
     private ArrayList<Task> list;
     public TaskList() {
-        this.list = new ArrayList<>();
+        this.list = FileHandler.loadTasksFromFile();
     }
+    private void saveToFile() {
+        FileHandler.saveTasksToFile(this.list);
+    }
+
     public void add_item(Task item) {
         this.list.add(item);
         System.out.println("Got it. I've added this task:");
         printTask(item);
         Utils.output("Now you have " + this.list.size() + " tasks in the list.");
+        saveToFile();
     }
 
-    public void delete_item_by_description(String description){
-        this.list.removeIf(task -> task.getDescription().equals(description));
-        Utils.output("Deleted: " + description);
-
-    }
     public void delete_item_by_index(int index) throws DukeException {
         if (index < 1 || index > list.size()) {
             throw new DukeException("Invalid task number! Please provide a number between 1 and " + list.size());
@@ -27,6 +28,8 @@ public class TaskList {
         System.out.println("Noted. I've removed this task:");
         printTask(removedTask);
         Utils.output("Now you have " + this.list.size() + " tasks in the list.");
+        saveToFile();
+
     }
 
     public void mark_done_by_index(int idx) {
@@ -37,6 +40,7 @@ public class TaskList {
             Task item = this.list.get(idx - 1);
             item.markDone();
             printTask(item);
+            saveToFile();
         }
     }
     private void printTask(Task item) {
