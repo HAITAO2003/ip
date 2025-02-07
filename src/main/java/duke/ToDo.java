@@ -1,8 +1,13 @@
-public class ToDo extends Task{
+package duke;
+
+import duke.DukeException;
+import duke.Task;
+
+public class ToDo extends Task {
     public ToDo(String description) throws DukeException {
         super(description);
         if (description.trim().isEmpty()) {
-            throw new DukeException("Task description cannot be empty!");
+            throw new DukeException("duke.Task description cannot be empty!");
         }
     }
     @Override

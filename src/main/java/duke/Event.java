@@ -1,8 +1,10 @@
+package duke;
+
+import duke.DukeException;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-public class Event extends Task{
+public class Event extends Task {
 
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
@@ -10,8 +12,8 @@ public class Event extends Task{
     public Event(String description, String startTimeStr, String endTimeStr) throws DukeException {
         super(description);
         try {
-            this.startDateTime = LocalDateTime.parse(startTimeStr.strip(), INPUT_FORMAT);
-            this.endDateTime = LocalDateTime.parse(endTimeStr.strip(), INPUT_FORMAT);
+            this.startDateTime = LocalDateTime.parse(startTimeStr.strip(), Task.INPUT_FORMAT);
+            this.endDateTime = LocalDateTime.parse(endTimeStr.strip(), Task.INPUT_FORMAT);
             if (this.endDateTime.isBefore(this.startDateTime)) {
                 throw new DukeException("End time cannot be before start time!");
             }
@@ -26,10 +28,10 @@ public class Event extends Task{
         return "E";
     }
     public String getStartTime() {
-        return startDateTime.format(PRINT_FORMAT);
+        return startDateTime.format(Task.PRINT_FORMAT);
     }
 
     public String getEndTime() {
-        return endDateTime.format(PRINT_FORMAT);
+        return endDateTime.format(Task.PRINT_FORMAT);
     }
 }
