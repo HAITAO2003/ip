@@ -1,8 +1,8 @@
 package duke;// duke.Ui.java
 
-import duke.Deadline;
-import duke.Event;
-import duke.Task;
+import tasks.Deadline;
+import tasks.Event;
+import tasks.Task;
 
 import java.util.List;
 import java.util.Scanner;

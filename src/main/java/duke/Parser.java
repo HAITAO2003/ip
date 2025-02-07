@@ -1,6 +1,9 @@
 package duke;
 
 import commands.*;
+import tasks.Deadline;
+import tasks.Event;
+import tasks.ToDo;
 
 public class Parser {
     private static final String COMMAND_TODO = "todo";

@@ -1,14 +1,14 @@
-package duke;
+package tasks;
 
 import java.time.format.DateTimeFormatter;
 
 public abstract class Task {
     protected String description;
-    protected boolean isDone;
+    public boolean isDone;
     protected static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     protected static final DateTimeFormatter PRINT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy, h:mma");
 
-    protected abstract String getTypeIcon();
+    public abstract String getTypeIcon();
 
     public Task(String description) {
         this.description = description;

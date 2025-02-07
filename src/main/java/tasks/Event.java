@@ -1,4 +1,4 @@
-package duke;
+package tasks;
 
 import duke.DukeException;
 
@@ -24,7 +24,7 @@ public class Event extends Task {
 
 
     @Override
-    protected String getTypeIcon() {
+    public String getTypeIcon() {
         return "E";
     }
     public String getStartTime() {

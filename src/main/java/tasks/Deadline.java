@@ -1,4 +1,6 @@
-package duke;
+package tasks;
+
+import duke.DukeException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -15,7 +17,7 @@ public class Deadline extends Task {
     }
 
     @Override
-    protected String getTypeIcon() {
+    public String getTypeIcon() {
         return "D";
     }
 
