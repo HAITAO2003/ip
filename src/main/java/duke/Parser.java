@@ -5,15 +5,26 @@ import tasks.Deadline;
 import tasks.Event;
 import tasks.ToDo;
 
+/**
+ * Parser class that handles the parsing of user input into commands.
+ * Validates input format and creates appropriate command objects.
+ */
 public class Parser {
-    private static final String COMMAND_TODO = "todo";
-    private static final String COMMAND_DEADLINE = "deadline";
-    private static final String COMMAND_EVENT = "event";
-    private static final String COMMAND_LIST = "list";
-    private static final String COMMAND_MARK = "done";
-    private static final String COMMAND_DELETE = "delete";
-    private static final String COMMAND_EXIT = "bye";
+    private static final String COMMAND_TYPE_TODO = "todo";
+    private static final String COMMAND_TYPE_DEADLINE = "deadline";
+    private static final String COMMAND_TYPE_EVENT = "event";
+    private static final String COMMAND_TYPE_LIST = "list";
+    private static final String COMMAND_TYPE_MARK = "done";
+    private static final String COMMAND_TYPE_DELETE = "delete";
+    private static final String COMMAND_TYPE_EXIT = "bye";
 
+    /**
+     * Parses user input into a Command object.
+     *
+     * @param input The user input string to parse
+     * @return The corresponding Command object
+     * @throws DukeException If the input format is invalid or command is not recognized
+     */
     public static Command parseCommand(String input) throws DukeException {
         String[] parts = input.trim().split(" ", 2);
         if (parts.length == 0 || parts[0].isEmpty()) {
@@ -23,26 +34,26 @@ public class Parser {
         String commandType = parts[0].toLowerCase();
         String args = parts.length > 1 ? parts[1].trim() : "";
 
-        switch (commandType) {
-            case COMMAND_DEADLINE:
-                return parseDeadline(args);
-            case COMMAND_EVENT:
-                return parseEvent(args);
-            case COMMAND_TODO:
-                return parseTodo(args);
-            case COMMAND_DELETE:
-                return parseDelete(args);
-            case COMMAND_MARK:
-                return parseMark(args);
-            case COMMAND_LIST:
-                return new ListCommand();
-            case COMMAND_EXIT:
-                return new ExitCommand();
-            default:
-                throw new DukeException("I don't understand that command. Please try again!");
-        }
+        return switch (commandType) {
+            case COMMAND_TYPE_DEADLINE -> parseDeadline(args);
+            case COMMAND_TYPE_EVENT -> parseEvent(args);
+            case COMMAND_TYPE_TODO -> parseTodo(args);
+            case COMMAND_TYPE_DELETE -> parseDelete(args);
+            case COMMAND_TYPE_MARK -> parseMark(args);
+            case COMMAND_TYPE_LIST -> new ListCommand();
+            case COMMAND_TYPE_EXIT -> new ExitCommand();
+            default -> throw new DukeException("I don't understand that command. Please try again!");
+        };
     }
 
+    /**
+     * Parses a deadline command string into a Command object.
+     * Expected format: description /by deadline_time
+     *
+     * @param args The arguments for the deadline command
+     * @return A Command object representing the deadline task
+     * @throws DukeException If the deadline format is invalid or description is empty
+     */
     private static Command parseDeadline(String args) throws DukeException {
         if (!args.contains("/by")) {
             throw new DukeException("Please provide a task description and deadline using /by!");
@@ -58,6 +69,14 @@ public class Parser {
         return new AddCommand(new Deadline(description, deadline));
     }
 
+    /**
+     * Parses an event command string into a Command object.
+     * Expected format: description /from start_time /to end_time
+     *
+     * @param args The arguments for the event command
+     * @return A Command object representing the event task
+     * @throws DukeException If the event format is invalid or description is empty
+     */
     private static Command parseEvent(String args) throws DukeException {
         if (!args.contains("/from") || !args.contains("/to")) {
             throw new DukeException("Please provide event details with /from and /to!");
@@ -74,6 +93,13 @@ public class Parser {
         return new AddCommand(new Event(description, startTime, endTime));
     }
 
+    /**
+     * Parses a todo command string into a Command object.
+     *
+     * @param args The description for the todo task
+     * @return A Command object representing the todo task
+     * @throws DukeException If the description is empty
+     */
     private static Command parseTodo(String args) throws DukeException {
         if (args.isEmpty()) {
             throw new DukeException("The description of a todo cannot be empty!");
@@ -81,6 +107,13 @@ public class Parser {
         return new AddCommand(new ToDo(args));
     }
 
+    /**
+     * Parses a delete command string into a Command object.
+     *
+     * @param args The index of the task to delete
+     * @return A Command object for deleting a task
+     * @throws DukeException If the task number is not a valid integer
+     */
     private static Command parseDelete(String args) throws DukeException {
         try {
             int index = Integer.parseInt(args.trim());
@@ -90,6 +123,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses a mark command string into a Command object.
+     *
+     * @param args The index of the task to mark as done
+     * @return A Command object for marking a task as done
+     * @throws DukeException If the task number is not a valid integer
+     */
     private static Command parseMark(String args) throws DukeException {
         try {
             int index = Integer.parseInt(args.trim());
