@@ -1,63 +1,51 @@
 package duke;
 
 import commands.Command;
-
 import java.util.ArrayList;
 
-/**
- * Main class for the Duke task management application.
- * Handles the overall program flow and user interactions.
- */
 public class Duke {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
-    /**
-     * Initializes Duke with the specified storage file path.
-     *
-     * @param filePath The path to the file for storing tasks
-     * @throws DukeException If there is an error loading the tasks
-     */
-    public Duke(String filePath) throws DukeException {
+    public Duke(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
         try {
             tasks = new TaskList(storage.load());
         } catch (DukeException e) {
             ui.showLoadingError();
+            // Initialize with empty task list instead of trying to load again
             tasks = new TaskList(new ArrayList<>());
         }
     }
 
     /**
-     * Runs the main program loop, processing user input until exit.
+     * Gets a response to user input
+     * @param input The user input
+     * @return Duke's response
      */
-    public void run() {
-        ui.showWelcome();
-        boolean isExit = false;
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand();
-                ui.showLine();
-                Command c = Parser.parseCommand(fullCommand);
-                c.execute(tasks, ui, storage);
-                isExit = c.isExit();
-            } catch (DukeException e) {
-                ui.showError(e.getMessage());
-            } finally {
-                ui.showLine();
-            }
-        }
-    }
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parseCommand(input);
+            StringBuilder response = new StringBuilder();
 
-    /**
-     * Main entry point of the application.
-     *
-     * @param args Command line arguments (not used)
-     * @throws DukeException If there is an error starting the application
-     */
-    public static void main(String[] args) throws DukeException {
-        new Duke("data/tasks.txt").run();
+            // Capture the response instead of printing to console
+            ui.captureResponse(() -> {
+                try {
+                    c.execute(tasks, ui, storage);
+                } catch (DukeException e) {
+                    ui.showError(e.getMessage());
+                }
+            }, response);
+
+            if (c.isExit()) {
+                System.exit(0);
+            }
+
+            return response.toString();
+        } catch (DukeException e) {
+            return "☹ OOPS!!! " + e.getMessage();
+        }
     }
 }
