@@ -12,16 +12,25 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles the loading and saving of task data to and from persistent storage.
+ * Manages file operations and data conversion between Task objects and their string representation.
+ */
 public class Storage {
     private final String filePath;
     private static final String DATA_DIR = "data";
 
+    /**
+     * Creates a new Storage instance with the specified file path.
+     *
+     * @param filePath The path where tasks will be saved to and loaded from
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
     /**
-     * Saves the list of tasks to file.
+     * Saves the given list of tasks to the storage file.
      * Creates the data directory if it doesn't exist.
      *
      * @param tasks List of tasks to save
@@ -44,7 +53,7 @@ public class Storage {
     }
 
     /**
-     * Loads tasks from file.
+     * Loads tasks from the storage file.
      * Creates the data directory if it doesn't exist.
      *
      * @return ArrayList of tasks loaded from file
@@ -56,7 +65,7 @@ public class Storage {
             ensureDirectoryExists();
             File file = new File(filePath);
             if (!file.exists()) {
-                return tasks;  // Return empty list if file doesn't exist
+                return tasks;
             }
 
             BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -88,6 +97,7 @@ public class Storage {
 
     /**
      * Converts a task object to its string representation for storage.
+     * Format: [Type]|[Done]|[Description]|[Additional Details]
      *
      * @param task Task to convert
      * @return String representation of the task
@@ -95,7 +105,6 @@ public class Storage {
     private String convertTaskToString(Task task) {
         StringBuilder sb = new StringBuilder();
 
-        // Add task type
         if (task instanceof ToDo) {
             sb.append("T");
         } else if (task instanceof Deadline) {
@@ -104,22 +113,16 @@ public class Storage {
             sb.append("E");
         }
 
-        // Add completion status and description
-        sb.append(" | ")
-                .append(task.isDone ? "1" : "0")
-                .append(" | ")
-                .append(task.getDescription());
+        sb.append(" | ").append(task.isDone ? "1" : "0")
+                .append(" | ").append(task.getDescription());
 
-        // Add type-specific details
         if (task instanceof Deadline) {
             Deadline deadline = (Deadline) task;
             sb.append(" | ").append(deadline.getDeadline());
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            sb.append(" | ")
-                    .append(event.getStartTime())
-                    .append(" | ")
-                    .append(event.getEndTime());
+            sb.append(" | ").append(event.getStartTime())
+                    .append(" | ").append(event.getEndTime());
         }
 
         return sb.toString();
@@ -127,6 +130,7 @@ public class Storage {
 
     /**
      * Converts a string from storage back to a Task object.
+     * Handles ToDo, Deadline, and Event task types.
      *
      * @param line String representation of task
      * @return Task object
