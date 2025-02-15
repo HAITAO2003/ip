@@ -5,77 +5,43 @@ import tasks.Event;
 import tasks.Task;
 
 import java.util.List;
-import java.util.Scanner;
 
-/**
- * Handles all user interface operations including input and output.
- */
 public class Ui {
-    private static final Scanner scanner = new Scanner(System.in);
+    private StringBuilder responseCapture;
     private static final String DIVIDER = "____________________________________________________________";
 
-    /**
-     * Shows the welcome message when the program starts.
-     */
-    public void showWelcome() {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        showToUser("Hello from\n" + logo);
-        showToUser("Hello! I'm duke.Duke\nWhat can I do for you?");
+    public void captureResponse(Runnable action, StringBuilder response) {
+        this.responseCapture = response;
+        action.run();
+        this.responseCapture = null;
     }
 
-    /**
-     * Reads the next line of user input.
-     *
-     * @return The user's input string
-     */
-    public String readCommand() {
-        return scanner.nextLine();
+    private void appendResponse(String... messages) {
+        if (responseCapture != null) {
+            for (String message : messages) {
+                responseCapture.append(message).append("\n");
+            }
+        }
     }
 
-    /**
-     * Shows a horizontal line divider.
-     */
     public void showLine() {
-        System.out.println(DIVIDER);
+        appendResponse(DIVIDER);
     }
 
-    /**
-     * Shows an error message to the user.
-     *
-     * @param message The error message to show
-     */
     public void showError(String message) {
-        System.out.println("☹ OOPS!!! " + message);
+        appendResponse("☹ OOPS!!! " + message);
     }
 
-    /**
-     * Shows an error message when loading tasks fails.
-     */
     public void showLoadingError() {
         showError("Problem loading tasks from file.");
     }
 
-    /**
-     * Shows one or more messages to the user.
-     *
-     * @param messages Variable number of messages to show
-     */
     public void showToUser(String... messages) {
         for (String message : messages) {
-            System.out.println(message);
+            appendResponse(message);
         }
     }
 
-    /**
-     * Shows a message when a task is added.
-     *
-     * @param task The task that was added
-     * @param totalTasks The total number of tasks in the list
-     */
     public void showAddedTask(Task task, int totalTasks) {
         showToUser(
                 "Got it. I've added this task:",
@@ -84,12 +50,6 @@ public class Ui {
         );
     }
 
-    /**
-     * Shows a message when a task is deleted.
-     *
-     * @param task The task that was deleted
-     * @param totalTasks The total number of tasks in the list
-     */
     public void showDeletedTask(Task task, int totalTasks) {
         showToUser(
                 "Noted. I've removed this task:",
@@ -98,23 +58,23 @@ public class Ui {
         );
     }
 
-    /**
-     * Shows a message when a task is marked as done.
-     *
-     * @param task The task that was marked as done
-     */
     public void showMarkedTask(Task task) {
         showToUser(
                 "Nice! I've marked this task as done:",
                 formatTask(task)
         );
     }
+    public void showMatchingTasks(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            showToUser("No matching tasks found!");
+            return;
+        }
 
-    /**
-     * Shows the list of all tasks.
-     *
-     * @param tasks List of tasks to show
-     */
+        showToUser("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            showToUser(String.format("%d.%s", i + 1, formatTask(tasks.get(i))));
+        }
+    }
     public void showTaskList(List<Task> tasks) {
         if (tasks.isEmpty()) {
             showToUser("No tasks in your list!");
@@ -127,13 +87,6 @@ public class Ui {
         }
     }
 
-    /**
-     * Formats a task for display.
-     * Different formatting is applied based on the task type.
-     *
-     * @param task The task to format
-     * @return Formatted string representation of the task
-     */
     private String formatTask(Task task) {
         if (task instanceof Deadline) {
             Deadline deadline = (Deadline) task;
@@ -149,17 +102,6 @@ public class Ui {
             return String.format("     [%s][%s] %s",
                     task.getTypeIcon(), task.getStatusIcon(),
                     task.getDescription());
-        }
-    }
-    public void showMatchingTasks(List<Task> tasks) {
-        if (tasks.isEmpty()) {
-            showToUser("No matching tasks found!");
-            return;
-        }
-
-        showToUser("Here are the matching tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            showToUser(String.format("%d.%s", i + 1, formatTask(tasks.get(i))));
         }
     }
 }
