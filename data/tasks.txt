@@ -1,4 +1,1 @@
-T | 1 | blah blah
-T | 0 | sfsdf
-T | 1 | sfds
-T | 0 | safda
+T | 0 | nothing

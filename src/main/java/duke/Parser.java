@@ -102,13 +102,7 @@ public class Parser {
 
     private static Command parseMark(String args) throws DukeException {
         try {
-            if (args.isEmpty()) {
-                throw new DukeException("Please specify which task to mark as done!");
-            }
             int index = Integer.parseInt(args.trim());
-            if (index <= 0) {
-                throw new DukeException("Task number must be positive!");
-            }
             return new MarkCommand(index);
         } catch (NumberFormatException e) {
             throw new DukeException("Please provide a valid task number!");
