@@ -95,4 +95,15 @@ public class Ui {
                     task.getDescription());
         }
     }
+    public void showMatchingTasks(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            showToUser("No matching tasks found!");
+            return;
+        }
+
+        showToUser("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            showToUser(String.format("%d.%s", i + 1, formatTask(tasks.get(i))));
+        }
+    }
 }

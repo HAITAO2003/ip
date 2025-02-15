@@ -13,6 +13,7 @@ public class Parser {
     private static final String COMMAND_MARK = "done";
     private static final String COMMAND_DELETE = "delete";
     private static final String COMMAND_EXIT = "bye";
+    private static final String COMMAND_FIND = "find";
 
     public static Command parseCommand(String input) throws DukeException {
         String[] parts = input.trim().split(" ", 2);
@@ -38,6 +39,8 @@ public class Parser {
                 return new ListCommand();
             case COMMAND_EXIT:
                 return new ExitCommand();
+            case COMMAND_FIND:
+                return parseFind(args);
             default:
                 throw new DukeException("I don't understand that command. Please try again!");
         }
@@ -56,6 +59,13 @@ public class Parser {
         }
 
         return new AddCommand(new Deadline(description, deadline));
+    }
+
+    private static Command parseFind(String args) throws DukeException {
+        if (args.isEmpty()) {
+            throw new DukeException("The search keyword cannot be empty!");
+        }
+        return new FindCommand(args);
     }
 
     private static Command parseEvent(String args) throws DukeException {
