@@ -113,7 +113,7 @@ public class Storage {
             sb.append("E");
         }
 
-        sb.append(" | ").append(task.isDone ? "1" : "0")
+        sb.append(" | ").append(task.isDone() ? "1" : "0")
                 .append(" | ").append(task.getDescription());
 
         if (task instanceof Deadline) {
