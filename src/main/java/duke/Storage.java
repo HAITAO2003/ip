@@ -26,6 +26,8 @@ public class Storage {
      * @param filePath The path where tasks will be saved to and loaded from
      */
     public Storage(String filePath) {
+        assert filePath != null : "File path cannot be null";
+        assert !filePath.trim().isEmpty() : "File path cannot be empty";
         this.filePath = filePath;
     }
 
@@ -37,6 +39,9 @@ public class Storage {
      * @throws DukeException if there's an error saving the tasks
      */
     public void save(List<Task> tasks) throws DukeException {
+        assert tasks != null : "Tasks list cannot be null";
+        assert tasks.stream().allMatch(task -> task != null) : "Tasks list cannot contain null elements";
+
         try {
             ensureDirectoryExists();
             BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
@@ -47,6 +52,9 @@ public class Storage {
             }
 
             writer.close();
+
+            // Verify file exists after writing
+            assert new File(filePath).exists() : "File should exist after saving";
         } catch (IOException e) {
             throw new DukeException("Error saving tasks: " + e.getMessage());
         }
@@ -68,15 +76,21 @@ public class Storage {
                 return tasks;
             }
 
+            assert file.canRead() : "File must be readable";
+
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
             while ((line = reader.readLine()) != null) {
+                assert !line.trim().isEmpty() : "Lines in file should not be empty";
                 Task task = convertStringToTask(line);
                 if (task != null) {
                     tasks.add(task);
                 }
             }
             reader.close();
+
+            // Verify all loaded tasks are valid
+            assert tasks.stream().allMatch(task -> task != null) : "All loaded tasks must be non-null";
         } catch (IOException e) {
             throw new DukeException("Error loading tasks: " + e.getMessage());
         }
@@ -89,10 +103,15 @@ public class Storage {
      * @throws IOException if there's an error creating the directory
      */
     private void ensureDirectoryExists() throws IOException {
+        assert DATA_DIR != null && !DATA_DIR.trim().isEmpty() : "Data directory path cannot be null or empty";
+
         Path dirPath = Paths.get(DATA_DIR);
         if (!Files.exists(dirPath)) {
             Files.createDirectory(dirPath);
         }
+
+        assert Files.exists(dirPath) : "Directory must exist after ensuring existence";
+        assert Files.isDirectory(dirPath) : "Path must point to a directory";
     }
 
     /**
@@ -103,6 +122,9 @@ public class Storage {
      * @return String representation of the task
      */
     private String convertTaskToString(Task task) {
+        assert task != null : "Task cannot be null";
+        assert task.getDescription() != null : "Task description cannot be null";
+
         StringBuilder sb = new StringBuilder();
 
         if (task instanceof ToDo) {
@@ -118,14 +140,19 @@ public class Storage {
 
         if (task instanceof Deadline) {
             Deadline deadline = (Deadline) task;
+            assert deadline.getDeadline() != null : "Deadline date cannot be null";
             sb.append(" | ").append(deadline.getDeadline());
         } else if (task instanceof Event) {
             Event event = (Event) task;
+            assert event.getStartTime() != null : "Event start time cannot be null";
+            assert event.getEndTime() != null : "Event end time cannot be null";
             sb.append(" | ").append(event.getStartTime())
                     .append(" | ").append(event.getEndTime());
         }
 
-        return sb.toString();
+        String result = sb.toString();
+        assert result != null && !result.isEmpty() : "Converted string cannot be null or empty";
+        return result;
     }
 
     /**
@@ -137,11 +164,19 @@ public class Storage {
      * @throws DukeException if there's an error parsing the line
      */
     private Task convertStringToTask(String line) throws DukeException {
+        assert line != null : "Input line cannot be null";
+        assert !line.trim().isEmpty() : "Input line cannot be empty";
+
         try {
             String[] parts = line.split(" \\| ");
+            assert parts.length >= 3 : "Line must have at least type, status, and description";
+
             String type = parts[0];
             boolean isDone = parts[1].equals("1");
             String description = parts[2];
+
+            assert type != null && !type.isEmpty() : "Task type cannot be null or empty";
+            assert description != null && !description.isEmpty() : "Description cannot be null or empty";
 
             Task task = null;
             switch (type) {
@@ -149,9 +184,11 @@ public class Storage {
                     task = new ToDo(description);
                     break;
                 case "D":
+                    assert parts.length >= 4 : "Deadline task must have a deadline date";
                     task = new Deadline(description, parts[3]);
                     break;
                 case "E":
+                    assert parts.length >= 5 : "Event task must have start and end times";
                     task = new Event(description, parts[3], parts[4]);
                     break;
                 default:
@@ -161,6 +198,8 @@ public class Storage {
             if (task != null && isDone) {
                 task.markDone();
             }
+
+            assert task != null : "Created task cannot be null";
             return task;
         } catch (Exception e) {
             throw new DukeException("Error parsing line: " + line + "\n" + e.getMessage());
