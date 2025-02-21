@@ -90,8 +90,10 @@ public class Parser {
             throw new DukeException("Please provide a task description and deadline using /by!");
         }
         String[] parts = args.split("/by");
-        // Assert we have exactly two parts after splitting by "/by"
-        assert parts.length == 2 : "Deadline must have exactly one /by delimiter";
+
+        if (parts.length != 2) {
+            throw new DukeException("Please provide a valid task description and deadline using /by!");
+        }
 
         String description = parts[0].strip();
         String deadline = parts[1].strip();
@@ -99,9 +101,6 @@ public class Parser {
         if (description.isEmpty()) {
             throw new DukeException("The task description cannot be empty!");
         }
-
-        // Assert both description and deadline are not empty after stripping
-        assert !description.isEmpty() && !deadline.isEmpty() : "Description and deadline must not be empty after stripping";
         return new AddCommand(new Deadline(description, deadline));
     }
 
