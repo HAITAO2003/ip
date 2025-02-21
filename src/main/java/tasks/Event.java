@@ -10,8 +10,8 @@ import java.time.format.DateTimeParseException;
  * Event tasks have a description, start time, and end time.
  */
 public class Event extends Task {
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
+    private final LocalDateTime startDateTime;
+    private final LocalDateTime endDateTime;
 
     /**
      * Creates a new Event task.
