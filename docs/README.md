@@ -1,8 +1,8 @@
-# Duke Task Manager - User Guide
+# Dumpling Task Manager - User Guide
 
 ![image](https://github.com/user-attachments/assets/12df2231-9db1-468f-bdec-af4a2b2889c8)
 
-Duke is a desktop chat-based task manager application that helps you keep track of your tasks, deadlines, and events through a friendly chat interface.
+Dumpling is a desktop chat-based task manager application that helps you keep track of your tasks, deadlines, and events through a friendly chat interface.
 
 ## Table of Contents
 - [Quick Start](#quick-start)
@@ -23,13 +23,13 @@ Duke is a desktop chat-based task manager application that helps you keep track 
 ## Quick Start
 
 1. Ensure you have Java 11 or above installed on your computer
-2. Download the latest version of Duke from [here](link-to-release)
-3. Run the JAR file using: `java -jar duke.jar`
+2. Download the latest version of Dumpling from [here](link-to-release)
+3. Run the JAR file using: `java -jar dumpling.jar`
 4. The GUI should appear with a welcome message
 
 ## Features
 
-Duke uses a command-line interface within a chat window. All task information is automatically saved after every command.
+Dumpling uses a command-line interface within a chat window. All task information is automatically saved after every command.
 
 ### Adding a Todo Task
 
