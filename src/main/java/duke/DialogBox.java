@@ -34,9 +34,9 @@ public class DialogBox extends HBox {
         // Set up the dialog label
         dialog.setText(text);
         dialog.setWrapText(true);
-        dialog.setMinHeight(Label.USE_PREF_SIZE); // Important: Use preferred size for height
-        dialog.setPrefWidth(300.0); // Set preferred width
-        dialog.setMaxWidth(300.0); // Set maximum width
+        dialog.setMinHeight(Label.USE_PREF_SIZE);
+        dialog.setPrefWidth(300.0);
+        dialog.setMaxWidth(300.0);
         dialog.setPadding(new Insets(10));
         dialog.setStyle("-fx-background-radius: 15; -fx-background-color: #E8E8E8;");
 
@@ -51,10 +51,10 @@ public class DialogBox extends HBox {
         // Set HBox properties
         this.setSpacing(10);
         this.setPadding(new Insets(5, 10, 5, 10));
-        this.setFillHeight(true); // Important: Allow the HBox to fill height
-        this.setMinHeight(USE_PREF_SIZE); // Use preferred size for height
-        this.setPrefWidth(Region.USE_COMPUTED_SIZE); // Use computed size for width
-        this.setMaxWidth(Double.MAX_VALUE); // Allow maximum width
+        this.setFillHeight(true);
+        this.setMinHeight(USE_PREF_SIZE);
+        this.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        this.setMaxWidth(Double.MAX_VALUE);
     }
 
     private void flip() {
@@ -69,11 +69,14 @@ public class DialogBox extends HBox {
         var db = new DialogBox(text, "U");
         db.setAlignment(Pos.TOP_RIGHT);
         db.dialog.setAlignment(Pos.CENTER_RIGHT);
+        db.dialog.setStyle("-fx-background-radius: 15; -fx-background-color: #ADD8E6; -fx-text-fill: black;");
+        db.avatar.setStyle("-fx-background-radius: 20; -fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold;");
         return db;
     }
 
     public static DialogBox getDukeDialog(String text) {
         var db = new DialogBox(text, "D");
+        db.avatar.setStyle("-fx-background-radius: 20; -fx-background-color: #9B59B6; -fx-text-fill: white; -fx-font-weight: bold;");
         db.flip();
         return db;
     }
