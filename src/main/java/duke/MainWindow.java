@@ -8,18 +8,44 @@ import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Region;
 
+/**
+ * Controller for the main window of the Duke chat application.
+ * Handles the UI interactions and connections between the Duke logic and the view.
+ */
 public class MainWindow {
+    /**
+     * The scroll pane that contains the dialog messages.
+     */
     @FXML
     private ScrollPane scrollPane;
+
+    /**
+     * The vertical box container that holds all chat messages.
+     */
     @FXML
     private VBox dialogContainer;
+
+    /**
+     * The text field for user input.
+     */
     @FXML
     private TextField userInput;
+
+    /**
+     * The button to send user input.
+     */
     @FXML
     private Button sendButton;
 
+    /**
+     * The Duke instance that handles command processing.
+     */
     private Duke duke;
 
+    /**
+     * Initializes the UI components of the main window.
+     * This method is automatically called after the FXML file is loaded.
+     */
     @FXML
     public void initialize() {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -38,6 +64,11 @@ public class MainWindow {
                 scrollPane.setVvalue(1.0));
     }
 
+    /**
+     * Sets the Duke instance and displays a welcome message.
+     *
+     * @param d The Duke instance to use for processing commands
+     */
     public void setDuke(Duke d) {
         duke = d;
         DialogBox welcomeMessage = DialogBox.getDukeDialog(
@@ -45,6 +76,10 @@ public class MainWindow {
         dialogContainer.getChildren().add(welcomeMessage);
     }
 
+    /**
+     * Handles the user input when the send button is clicked or Enter key is pressed.
+     * Processes the input through Duke and displays the response.
+     */
     @FXML
     private void handleUserInput() {
         String input = userInput.getText().trim();

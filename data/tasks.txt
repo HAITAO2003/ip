@@ -1,2 +1,6 @@
-T | 0 | no
-E | 0 | hello | Dec 2 2019, 6:00pm | Dec 2 2019, 6:00pm
+T | 0 | task with special chars: !@#$%^&*()
+D | 0 | assignment with spaces | Dec 20 2023, 11:59pm
+E | 0 | "quoted event name" | Dec 25 2023, 9:00am | Dec 25 2023, 10:00am
+T | 0 | task1
+T | 0 | case test
+E | 0 | case test | Dec 31 2023, 9:00am | Dec 31 2023, 10:00am
