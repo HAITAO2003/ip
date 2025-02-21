@@ -208,4 +208,3 @@ A: Duke saves your tasks after every command, so you will only lose changes from
 
 ---
 
-© 2023 Duke Task Manager Team
