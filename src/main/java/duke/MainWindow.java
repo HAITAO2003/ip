@@ -22,20 +22,18 @@ public class MainWindow {
 
     @FXML
     public void initialize() {
-        // Configure ScrollPane
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setFitToWidth(true);
         scrollPane.setContent(dialogContainer);
 
-        // Configure VBox (dialogContainer)
         dialogContainer.setSpacing(10);
         dialogContainer.setPadding(new Insets(10));
         dialogContainer.setMinWidth(Region.USE_PREF_SIZE);
         dialogContainer.setPrefWidth(Region.USE_COMPUTED_SIZE);
         dialogContainer.setMaxWidth(Double.MAX_VALUE);
+        dialogContainer.setStyle("-fx-background-color: #F5F5DC;");
 
-        // Bind scroll pane to follow the bottom
         dialogContainer.heightProperty().addListener((observable, oldValue, newValue) ->
                 scrollPane.setVvalue(1.0));
     }
