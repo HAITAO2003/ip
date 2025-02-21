@@ -1,8 +1,8 @@
-# Duke Task Manager - User Guide
+# Dumpling Task Manager - User Guide
 
 ![image](https://github.com/user-attachments/assets/12df2231-9db1-468f-bdec-af4a2b2889c8)
 
-Duke is a desktop chat-based task manager application that helps you keep track of your tasks, deadlines, and events through a friendly chat interface.
+Dumpling is a desktop chat-based task manager application that helps you keep track of your tasks, deadlines, and events through a friendly chat interface.
 
 ## Table of Contents
 - [Quick Start](#quick-start)
@@ -23,13 +23,13 @@ Duke is a desktop chat-based task manager application that helps you keep track 
 ## Quick Start
 
 1. Ensure you have Java 11 or above installed on your computer
-2. Download the latest version of Duke from [here](link-to-release)
-3. Run the JAR file using: `java -jar duke.jar`
+2. Download the latest version of Dumpling from [here](https://github.com/HAITAO2003/ip/releases/tag/Final-Release)
+3. Run the JAR file using: `java -jar dumpling.jar`
 4. The GUI should appear with a welcome message
 
 ## Features
 
-Duke uses a command-line interface within a chat window. All task information is automatically saved after every command.
+Dumpling uses a command-line interface within a chat window. All task information is automatically saved after every command.
 
 ### Adding a Todo Task
 
@@ -91,7 +91,7 @@ Now you have 3 tasks in the list.
 
 ### Listing All Tasks
 
-Show all tasks currently stored in Duke.
+Show all tasks currently stored in Dumpling.
 
 Format: `list`
 
@@ -188,7 +188,7 @@ Now you have 2 tasks in the list.
 
 ### Exiting the Program
 
-Exit the Duke application.
+Exit the Dumpling application.
 
 Format: `bye`
 
@@ -218,20 +218,20 @@ Bye. Hope to see you again soon!
 
 ## Data Storage
 
-Duke automatically saves your tasks to a file in the `data` directory. The file is named `tasks.txt` and is created automatically if it doesn't exist.
+Dumpling automatically saves your tasks to a file in the `data` directory. The file is named `tasks.txt` and is created automatically if it doesn't exist.
 
 ## FAQ
 
 **Q: What happens if I enter an invalid command?**  
-A: Duke will show an error message explaining what went wrong.
+A: Dumpling will show an error message explaining what went wrong.
 
 **Q: Can I edit a task after adding it?**  
 A: Yes, you can update a task by first deleting it using the `delete` command and then adding it again with the updated information.
 
 **Q: What happens if I enter an invalid date format?**  
-A: Duke will show an error message reminding you to use the format: d/M/yyyy HHmm (e.g., 2/12/2023 1800).
+A: Dumpling will show an error message reminding you to use the format: d/M/yyyy HHmm (e.g., 2/12/2023 1800).
 
 **Q: Will I lose my data if the application crashes?**  
-A: Duke saves your tasks after every command, so you will only lose changes from the current command if the application crashes.
+A: Dumpling saves your tasks after every command, so you will only lose changes from the current command if the application crashes.
 
 ---
