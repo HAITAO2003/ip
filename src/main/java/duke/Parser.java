@@ -3,6 +3,7 @@ package duke;
 import commands.*;
 import tasks.Deadline;
 import tasks.Event;
+import tasks.Task;
 import tasks.ToDo;
 
 /**
@@ -20,6 +21,7 @@ public class Parser {
     private static final String COMMAND_DELETE = "delete";
     private static final String COMMAND_EXIT = "bye";
     private static final String COMMAND_FIND = "find";
+    private static final String COMMAND_UPDATE = "update";
 
     /**
      * Parses a user input string into a Command object.
@@ -65,6 +67,8 @@ public class Parser {
                 return new ExitCommand();
             case COMMAND_FIND:
                 return parseFind(args);
+            case COMMAND_UPDATE:
+                return parseUpdate(args);
             default:
                 throw new DukeException("I don't understand that command. Please try again!");
         }
@@ -120,6 +124,85 @@ public class Parser {
         // Assert search keyword is not empty after validation
         assert !args.isEmpty() : "Search keyword cannot be empty after validation";
         return new FindCommand(args);
+    }
+
+    /**
+     * Parses an update command from the given arguments.
+     * Expected format: [index] [task_type] [task_details]
+     * For example: "1 todo Buy groceries" or "2 deadline Submit report /by 2023-05-20"
+     *
+     * @param args The string containing the index and new task details
+     * @return UpdateCommand with the specified index and new task
+     * @throws DukeException If the format is invalid, the index is invalid, or task details are incomplete
+     */
+    private static Command parseUpdate(String args) throws DukeException {
+        // Assert args is not null
+        assert args != null : "Update arguments cannot be null";
+
+        if (args.isEmpty()) {
+            throw new DukeException("Please provide the task number and new task details!");
+        }
+
+        String[] parts = args.trim().split(" ", 3);
+        if (parts.length < 2) {
+            throw new DukeException("Please provide both the task number and the type of the new task!");
+        }
+
+        try {
+            // Parse the index
+            int index = Integer.parseInt(parts[0].trim());
+            if (index <= 0) {
+                throw new DukeException("Task number must be positive!");
+            }
+
+            // Get the task type
+            String taskType = parts[1].toLowerCase().trim();
+
+            // Prepare the task details (the rest of the input after the index and task type)
+            String taskDetails = parts.length > 2 ? parts[2].trim() : "";
+
+            Task newTask;
+
+            // Create the appropriate task based on the task type
+            switch (taskType) {
+                case COMMAND_TODO:
+                    if (taskDetails.isEmpty()) {
+                        throw new DukeException("The description of a todo cannot be empty!");
+                    }
+                    newTask = new ToDo(taskDetails);
+                    break;
+
+                case COMMAND_DEADLINE:
+                    if (!taskDetails.contains("/by")) {
+                        throw new DukeException("Please provide a deadline using /by!");
+                    }
+                    String[] deadlineParts = taskDetails.split("/by");
+                    if (deadlineParts.length != 2 || deadlineParts[0].trim().isEmpty()) {
+                        throw new DukeException("Invalid deadline format!");
+                    }
+                    newTask = new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim());
+                    break;
+
+                case COMMAND_EVENT:
+                    if (!taskDetails.contains("/from") || !taskDetails.contains("/to")) {
+                        throw new DukeException("Please provide event details with /from and /to!");
+                    }
+                    String[] eventParts = taskDetails.split("/from|/to");
+                    if (eventParts.length != 3 || eventParts[0].trim().isEmpty()) {
+                        throw new DukeException("Invalid event format!");
+                    }
+                    newTask = new Event(eventParts[0].trim(), eventParts[1].trim(), eventParts[2].trim());
+                    break;
+
+                default:
+                    throw new DukeException("Unknown task type: " + taskType);
+            }
+
+            return new UpdateCommand(index, newTask);
+
+        } catch (NumberFormatException e) {
+            throw new DukeException("Please provide a valid task number!");
+        }
     }
 
     /**

@@ -1,5 +1,2 @@
-T | 1 | blah blah
-T | 1 | sfsdf
-T | 1 | safda
-T | 0 | nothign
-D | 0 | ts | Dec 2 2019, 6:00pm
+T | 0 | no
+E | 0 | hello | Dec 2 2019, 6:00pm | Dec 2 2019, 6:00pm

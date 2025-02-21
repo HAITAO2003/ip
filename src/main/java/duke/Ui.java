@@ -49,7 +49,14 @@ public class Ui {
                 String.format("Now you have %d tasks in the list.", totalTasks)
         );
     }
-
+    public void showUpdatedTask(Task oldTask, Task newTask) {
+        showToUser(
+                "Got it. I've updated this task:",
+                formatTask(oldTask),
+                "to this new task:",
+                formatTask(newTask)
+        );
+    }
     public void showDeletedTask(Task task, int totalTasks) {
         showToUser(
                 "Noted. I've removed this task:",
