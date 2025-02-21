@@ -13,33 +13,16 @@ import javafx.scene.layout.Region;
  * Handles the UI interactions and connections between the Duke logic and the view.
  */
 public class MainWindow {
-    /**
-     * The scroll pane that contains the dialog messages.
-     */
+
     @FXML
     private ScrollPane scrollPane;
-
-    /**
-     * The vertical box container that holds all chat messages.
-     */
     @FXML
     private VBox dialogContainer;
-
-    /**
-     * The text field for user input.
-     */
     @FXML
     private TextField userInput;
-
-    /**
-     * The button to send user input.
-     */
     @FXML
     private Button sendButton;
 
-    /**
-     * The Duke instance that handles command processing.
-     */
     private Duke duke;
 
     /**
