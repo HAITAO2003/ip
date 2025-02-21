@@ -21,7 +21,7 @@ public class Main extends Application {
             MainWindow mainWindow = fxmlLoader.getController();
             mainWindow.setDuke(duke);
 
-            stage.setTitle("Duke");
+            stage.setTitle("Task Manager");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();

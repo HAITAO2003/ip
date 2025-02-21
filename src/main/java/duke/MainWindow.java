@@ -55,7 +55,7 @@ public class MainWindow {
     public void setDuke(Duke d) {
         duke = d;
         DialogBox welcomeMessage = DialogBox.getDukeDialog(
-                "Hello! I'm Duke\nWhat can I do for you?");
+                "Hello! I'm Dumpling \nWhat can I do for you?");
         dialogContainer.getChildren().add(welcomeMessage);
     }
 
