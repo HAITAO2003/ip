@@ -1,6 +1,6 @@
 # Duke Task Manager - User Guide
-<img width="399" alt="image" src="https://github.com/user-attachments/assets/8837ab33-5696-4e45-9bbc-9fcdebd1711b" />
 
+![Duke Chat Interface](https://via.placeholder.com/700x400?text=Duke+Task+Manager+Screenshot)
 
 Duke is a desktop chat-based task manager application that helps you keep track of your tasks, deadlines, and events through a friendly chat interface.
 
@@ -14,6 +14,7 @@ Duke is a desktop chat-based task manager application that helps you keep track 
   - [Marking a Task as Done](#marking-a-task-as-done)
   - [Deleting a Task](#deleting-a-task)
   - [Finding Tasks](#finding-tasks)
+  - [Updating a Task](#updating-a-task)
   - [Exiting the Program](#exiting-the-program)
 - [Command Summary](#command-summary)
 - [Data Storage](#data-storage)
@@ -159,6 +160,32 @@ Here are the matching tasks in your list:
 1.     [E][ ] team meeting (from: Oct 10 2023, 2:00PM to: Oct 10 2023, 4:00PM)
 ```
 
+### Updating a Task
+
+Update an existing task with new information.
+
+Format: Depends on the task type:
+- For Todo: First use `delete INDEX`, then `todo NEW_DESCRIPTION`
+- For Deadline: First use `delete INDEX`, then `deadline NEW_DESCRIPTION /by NEW_DATE_TIME`
+- For Event: First use `delete INDEX`, then `event NEW_DESCRIPTION /from NEW_START_DATE_TIME /to NEW_END_DATE_TIME`
+
+Example:
+```
+delete 3
+event important team meeting /from 11/10/2023 1400 /to 11/10/2023 1700
+```
+
+Response:
+```
+Noted. I've removed this task:
+     [E][ ] team meeting (from: Oct 10 2023, 2:00PM to: Oct 10 2023, 4:00PM)
+Now you have 1 tasks in the list.
+
+Got it. I've added this task:
+     [E][ ] important team meeting (from: Oct 11 2023, 2:00PM to: Oct 11 2023, 5:00PM)
+Now you have 2 tasks in the list.
+```
+
 ### Exiting the Program
 
 Exit the Duke application.
@@ -186,6 +213,7 @@ Bye. Hope to see you again soon!
 | **Mark as Done** | `done INDEX` | `done 1` |
 | **Delete** | `delete INDEX` | `delete 2` |
 | **Find** | `find KEYWORD` | `find meeting` |
+| **Update** | Delete then add with new info | `delete 3` then `event important team meeting /from 11/10/2023 1400 /to 11/10/2023 1700` |
 | **Exit** | `bye` | `bye` |
 
 ## Data Storage
@@ -198,7 +226,7 @@ Duke automatically saves your tasks to a file in the `data` directory. The file 
 A: Duke will show an error message explaining what went wrong.
 
 **Q: Can I edit a task after adding it?**  
-A: Currently, you need to delete the task and add it again with the corrected information.
+A: Yes, you can update a task by first deleting it using the `delete` command and then adding it again with the updated information.
 
 **Q: What happens if I enter an invalid date format?**  
 A: Duke will show an error message reminding you to use the format: d/M/yyyy HHmm (e.g., 2/12/2023 1800).
@@ -207,4 +235,3 @@ A: Duke will show an error message reminding you to use the format: d/M/yyyy HHm
 A: Duke saves your tasks after every command, so you will only lose changes from the current command if the application crashes.
 
 ---
-
