@@ -95,13 +95,11 @@ public class Ui {
     }
 
     private String formatTask(Task task) {
-        if (task instanceof Deadline) {
-            Deadline deadline = (Deadline) task;
+        if (task instanceof Deadline deadline) {
             return String.format("     [%s][%s] %s (by: %s)",
                     deadline.getTypeIcon(), deadline.getStatusIcon(),
                     deadline.getDescription(), deadline.getDeadline());
-        } else if (task instanceof Event) {
-            Event event = (Event) task;
+        } else if (task instanceof Event event) {
             return String.format("     [%s][%s] %s (from: %s to: %s)",
                     event.getTypeIcon(), event.getStatusIcon(),
                     event.getDescription(), event.getStartTime(), event.getEndTime());
