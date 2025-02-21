@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Handles the loading and saving of task data to and from persistent storage.
@@ -40,7 +41,7 @@ public class Storage {
      */
     public void save(List<Task> tasks) throws DukeException {
         assert tasks != null : "Tasks list cannot be null";
-        assert tasks.stream().allMatch(task -> task != null) : "Tasks list cannot contain null elements";
+        assert tasks.stream().allMatch(Objects::nonNull) : "Tasks list cannot contain null elements";
 
         try {
             ensureDirectoryExists();
@@ -90,7 +91,7 @@ public class Storage {
             reader.close();
 
             // Verify all loaded tasks are valid
-            assert tasks.stream().allMatch(task -> task != null) : "All loaded tasks must be non-null";
+            assert tasks.stream().allMatch(Objects::nonNull) : "All loaded tasks must be non-null";
         } catch (IOException e) {
             throw new DukeException("Error loading tasks: " + e.getMessage());
         }
@@ -138,21 +139,16 @@ public class Storage {
         sb.append(" | ").append(task.isDone() ? "1" : "0")
                 .append(" | ").append(task.getDescription());
 
-        if (task instanceof Deadline) {
-            Deadline deadline = (Deadline) task;
+        if (task instanceof Deadline deadline) {
             assert deadline.getDeadline() != null : "Deadline date cannot be null";
             sb.append(" | ").append(deadline.getDeadline());
-        } else if (task instanceof Event) {
-            Event event = (Event) task;
+        } else if (task instanceof Event event) {
             assert event.getStartTime() != null : "Event start time cannot be null";
             assert event.getEndTime() != null : "Event end time cannot be null";
             sb.append(" | ").append(event.getStartTime())
                     .append(" | ").append(event.getEndTime());
         }
-
-        String result = sb.toString();
-        assert result != null && !result.isEmpty() : "Converted string cannot be null or empty";
-        return result;
+        return sb.toString();
     }
 
     /**
@@ -195,11 +191,9 @@ public class Storage {
                     throw new DukeException("Unknown task type: " + type);
             }
 
-            if (task != null && isDone) {
+            if (isDone) {
                 task.markDone();
             }
-
-            assert task != null : "Created task cannot be null";
             return task;
         } catch (Exception e) {
             throw new DukeException("Error parsing line: " + line + "\n" + e.getMessage());
