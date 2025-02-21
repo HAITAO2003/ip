@@ -1,6 +1,6 @@
 # Duke Task Manager - User Guide
 
-![Duke Chat Interface](https://via.placeholder.com/700x400?text=Duke+Task+Manager+Screenshot)
+![image](https://github.com/user-attachments/assets/12df2231-9db1-468f-bdec-af4a2b2889c8)
 
 Duke is a desktop chat-based task manager application that helps you keep track of your tasks, deadlines, and events through a friendly chat interface.
 
